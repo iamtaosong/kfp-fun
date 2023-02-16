@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: my-workflow-
+spec:
+  entrypoint: my-entrypoint
+  templates:
+  - name: my-task-one
+    container:
+      image: alpine:latest
+      command: ["/bin/sh", "-c"]
+      args: ["echo 'Task One completed.'"]
+  - name: my-task-two
+    container:
+      image: alpine:latest
+      command: ["/bin/sh", "-c"]
+      args: ["echo 'Task Two completed.'"]
+  - name: my-entrypoint
+    steps:
+    - - name: task-one
+        template: my-task-one
+    - - name: task-two
+        template: my-task-two
